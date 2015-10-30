@@ -28,7 +28,7 @@
                 </tr>
                 <tr>
                     <td>Employee City : </td>
-                    <td><input path="emCity" type="text" name="emCity"/></td>
+                    <td><input type="text" name="emCity"/></td>
                 </tr>
                 <tr>
                     <td>Employee State : </td>

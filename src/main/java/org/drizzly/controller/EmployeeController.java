@@ -5,7 +5,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import java.util.Map;
-import org.drizzly.core.EmployeeManager;
 import org.drizzly.interfaces.dto.IEmployee;
 import org.drizzly.persistence.dto.DrMaEmployee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class EmployeeController {
 
     protected final Log logger = LogFactory.getLog(getClass());
     @Autowired
-    EmployeeManager manager;
+    EmployeeFacade facade;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -36,21 +35,8 @@ public class EmployeeController {
     public ModelAndView deleteEmployee(@RequestParam Map<String,String> reqParam){
         ModelAndView modelAndView = new ModelAndView("EmployeeDetails");
         System.out.println("emp Id "+reqParam.get("employeeId"));
-        logger.debug(reqParam.get("employeeId"));
         final Long empId = Long.valueOf(reqParam.get("employeeId"));
-        manager.removeEmployee(empId);
-        modelAndView.addObject("message","Ressign Updted for the Employee id is "+empId);
-        return modelAndView;
-    }
-    
-    @RequestMapping(value = "/updateEmployee.html" , method = RequestMethod.GET)
-    public ModelAndView updateEmployee(@ModelAttribute("employee") DrMaEmployee employee){
-        System.out.println("employee "+employee.getEmName());
-        ModelAndView modelAndView = new ModelAndView("EmployeeDetails");
-        modelAndView.addObject("insertMessage", "Record Inserted");
-        System.out.println("Employee input details "+employee);
-        manager.UpdateEmployee(employee);
-        return modelAndView;
+        return customerMessage(modelAndView, facade.deleteEmployee(empId));
     }
     
     @ModelAttribute
@@ -60,20 +46,22 @@ public class EmployeeController {
     
     @RequestMapping(value="/findAction.html", method=RequestMethod.POST)
     public ModelAndView handlePost(@RequestParam Map<String,String> reqParam){
+        final String currentAction = reqParam.get("doAction");
+        System.out.println("Inside find action "+currentAction);
         ModelAndView modelAndView = new ModelAndView();
-        if( reqParam.get("doAction").equals("findEmployee") ){
-            modelAndView =  new ModelAndView("redirect:/findEmployee.html");
+        if( currentAction.equals("findEmployee") ){
+            modelAndView = new ModelAndView("redirect:/findEmployee.html");
         }
-        else if(  reqParam.get("doAction").equals("deleteEmployee") ){
-            modelAndView =  new ModelAndView("redirect:/deleteEmployee.html");
+        else if(  currentAction.equals("updateEmployee") ){
+            modelAndView = new ModelAndView("redirect:/updateEmployee.html");
         }
-        else if(  reqParam.get("doAction").equals("updateEmployee") ){
-            modelAndView =  new ModelAndView("redirect:/updateEmployee.html");
+        else if(  currentAction.equals("deleteEmployee") ){
+            modelAndView = new ModelAndView("redirect:/deleteEmployee.html");
         }
-        else if(  reqParam.get("doAction").equals("findAnotherEmployee") ){
-            modelAndView =  new ModelAndView("redirect:/findEmployeeForm.html");
+        else if(  currentAction.equals("findAnotherEmployee") ){
+            modelAndView = new ModelAndView("redirect:/findEmployeeForm.html");
         }
-         modelAndView.addAllObjects(reqParam);
+        modelAndView.addAllObjects(reqParam);
         return modelAndView;
     }
     
@@ -86,17 +74,13 @@ public class EmployeeController {
     @RequestMapping(value = "/findEmployee.html" , method = RequestMethod.GET)
     public ModelAndView findEmployee(@RequestParam Map<String,String> reqParam){
         ModelAndView modelAndView = new ModelAndView("EmployeeDetails");
-        //Employee employee = new Employee();
-        System.out.println("doAction  "+reqParam.get("doAction"));
-        logger.debug(reqParam.get("doAction"));
-        System.out.println("emp Id "+reqParam.get("employeeId"));
         logger.debug(reqParam.get("employeeId"));
         final Long empId = Long.valueOf(reqParam.get("employeeId"));
-        IEmployee iEmployee = manager.getEmployeeDetails(empId);
+        final IEmployee iEmployee = facade.findEmployee(empId);
         modelAndView.addObject("employee",iEmployee);
         return modelAndView;
     }
-    
+
     @RequestMapping(value ="/insertEmployeeForm.html" , method = RequestMethod.GET)
     public ModelAndView insertEmployeeForm(){
         ModelAndView modelAndView = new ModelAndView("AddEmployee");
@@ -106,11 +90,19 @@ public class EmployeeController {
     @RequestMapping(value = "/insertEmployee.html" , method = RequestMethod.POST)
     public ModelAndView insertEmployee(@ModelAttribute("employee") DrMaEmployee employee){
         System.out.println("employee "+employee.getEmName());
+        final ModelAndView modelAndView = new ModelAndView("EmployeeDetails");
+        return customerMessage(modelAndView, facade.insertEmployee(employee));
+    }
+    
+    @RequestMapping(value = "/updateEmployee.html" , method = RequestMethod.GET)
+    public ModelAndView updateEmployee(@ModelAttribute("employee") DrMaEmployee employee){
+        System.out.println("update Employee");
         ModelAndView modelAndView = new ModelAndView("EmployeeDetails");
-        modelAndView.addObject("insertMessage", "Record Inserted");
-        System.out.println("Employee input details "+employee);
-        manager.saveEmployee(employee);
-        return modelAndView;
+        return customerMessage(modelAndView, facade.updateEmployee(employee));
+    }
+    
+    private ModelAndView customerMessage(final ModelAndView modelAndView,final String message){
+        return modelAndView.addObject("message", message);
     }
 }  
        

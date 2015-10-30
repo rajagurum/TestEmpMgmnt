@@ -24,7 +24,7 @@
     </script>
         <h1>${drizzlyheader}</h1>
         
-        <form:form action="/Drizzly/findAction.html" method="post">    
+        <form:form action="/Drizzly/findAction.html" method="post">
             <c:choose>
             <c:when test="${not empty employee}">
                 <input type="button" id="editbutton" value="Do you want to edit ${employee.emName}">
@@ -56,24 +56,37 @@
                     <table>
                     <tr>
                         <td>Employee Name : </td>
+                        <input type="hidden" name="emId" value="${employee.emId}">
                         <td><input type="text" name="emName" value="${employee.emName}"></td>
                     </tr>
                     <tr>
                         <td>Employee Salary : </td>
-                        <td><input type="text" name="emSalary" value="${employee.emSalary}"></td>
+                        <td>${employee.emSalary}</td>
                     </tr>
                     <tr>
                         <td>Employee Mobile 1 : </td>
                         <td><input type="text" name="emMobile1" value="${employee.emMobile1}"></td>
                     </tr>
                     <tr>
-                        <td>Employee Joined Date : </td>
-                        <td><input type="text" name="emJoinDate" value="${employee.emJoinDate}"></td>
+                        <td>Employee Mobile 2 : </td>
+                        <td><input type="text" name="emMobile2" value="${employee.emMobile2}"></td>
                     </tr>
                     <tr>
-                        <td>Employee Releived Date : </td>
-                        <td><input type="text" name="emJoinDate" value="${employee.emReleivedDate}"></td>
+                        <td>Employee Joined Date : </td>
+                        <td>${employee.emJoinDate}</td>
                     </tr>
+                    <tr>
+                        <td>Employee Address : </td>
+                        <td><input type="text" name="emAddress" value="${employee.emAddress}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Employee Pincode : </td>
+                        <td><input type="text" name="emPincode" value="${employee.emPincode}"/></td>
+                    </tr>
+<!--                    <tr>
+                        <td>Employee Releived Date : </td>
+                        <td><input type="text" name="emReleivedDate" value="${employee.emReleivedDate}"></td>
+                    </tr>-->
                     </table>
                 </div>
             </c:when>

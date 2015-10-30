@@ -33,7 +33,7 @@ abstract class AbstractDao {
  
     public void delete(Object entity) {
         getSession().getTransaction().begin();
-        boolean isEmpExist = getSession().contains(entity);
+        //boolean isEmpExist = getSession().contains(entity);
         getSession().delete(entity);
         getSession().getTransaction().commit();
         getSession().close();
@@ -44,6 +44,16 @@ abstract class AbstractDao {
         if(!getSession().contains(entity)){
             getSession().saveOrUpdate(entity);
             getSession().flush();
+        }
+        getSession().getTransaction().commit();
+        getSession().close();
+    }
+    
+    public void update(Object entity){
+        getSession().getTransaction().begin();
+        if(!getSession().contains(entity)){
+            getSession().update(entity);
+            //getSession().flush();
         }
         getSession().getTransaction().commit();
         getSession().close();

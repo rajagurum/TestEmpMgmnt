@@ -54,7 +54,7 @@ public class EmployeeDAO extends AbstractDao implements IEmployeeDAO{
     public IEmployee findByEmId(Long emId){
         System.out.print("inside by findby ");
         getSession().beginTransaction();
-        Criteria criteria = getSession().createCriteria(DrMaEmployee.class);
+        final Criteria criteria = getSession().createCriteria(DrMaEmployee.class);
         criteria.add(Restrictions.eq("emId",emId));
         System.out.print("inside by findby "+criteria.toString());
         DrMaEmployee emp=null;
@@ -66,6 +66,25 @@ public class EmployeeDAO extends AbstractDao implements IEmployeeDAO{
     }
      
     public void updateEmployee(DrMaEmployee employee){
+        //update(employee);
+        getSession().beginTransaction();
+        Query query = getSession().createSQLQuery("update DR_MA_EMPLOYEE set EM_NAME=:emName, "
+                + "EM_ADDRESS=:emAddress, EM_PINCODE=:emPincode, EM_MOBILE1=:emMobile1, EM_MOBILE2=:emMobile2, EM_EMAIL1=:emEmail1 "
+                + "where EM_ID=:emId");
+        query.setString("emName", employee.getEmName());
+        query.setString("emAddress", employee.getEmAddress());
+        query.setString("emPincode", employee.getEmPincode());
+        query.setString("emMobile1", employee.getEmMobile1());
+        query.setString("emMobile2", employee.getEmMobile2());
+        query.setString("emEmail1", employee.getEmEmail1());
+        query.setLong("emId", employee.getEmId());
+        int result = query.executeUpdate();
+        getSession().getTransaction().commit();
+        System.out.println("result  "+result);
+        getSession().close();
+    }
+    
+    public void saveOrUpdateEmployee(DrMaEmployee employee){
         saveOrUpdate(employee);
     }
     
