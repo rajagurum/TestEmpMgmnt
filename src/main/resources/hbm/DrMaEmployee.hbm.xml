@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17 Oct, 2015 9:14:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.drizzly.persistence.dto.DrMaEmployee" table="DR_MA_EMPLOYEE" catalog="DrizzlyDB" optimistic-lock="version">
+        <id name="emId" type="java.lang.Long">
+            <column name="EM_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="emName" type="string">
+            <column name="EM_NAME" length="100" not-null="true" />
+        </property>
+        <property name="emJoinDate" type="java.util.Date">
+            <column name="EM_JOIN_DATE" length="10" not-null="false" />
+        </property>
+        <property name="emSalary" type="big_integer">
+            <column name="EM_SALARY" precision="10" scale="0" not-null="true" />
+        </property>
+        <property name="emReleivedDate" type="java.util.Date">
+            <column name="EM_RELEIVED_DATE" length="10" />
+        </property>
+        <property name="emAddress" type="string">
+            <column name="EM_ADDRESS" length="500" not-null="true" />
+        </property>
+        <property name="emCity" type="string">
+            <column name="EM_CITY" length="100" not-null="true" />
+        </property>
+        <property name="emState" type="string">
+            <column name="EM_STATE" length="100" not-null="true" />
+        </property>
+        <property name="emPincode" type="string">
+            <column name="EM_PINCODE" length="50" not-null="true" />
+        </property>
+        <property name="emCountry" type="string">
+            <column name="EM_COUNTRY" length="50" not-null="true" />
+        </property>
+        <property name="emMobile1" type="string">
+            <column name="EM_MOBILE1" length="15" not-null="true" />
+        </property>
+        <property name="emMobile2" type="string">
+            <column name="EM_MOBILE2" length="15" />
+        </property>
+        <property name="emEmail1" type="string">
+            <column name="EM_EMAIL1" length="150" />
+        </property>
+        <set name="drTrLoanDues" table="DR_TR_LOAN_DUE" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="LP_EM_ID" not-null="true" />
+            </key>
+            <one-to-many class="org.drizzly.persistence.dto.DrTrLoanDue" />
+        </set>
+        <set name="drTrLoans" table="DR_TR_LOAN" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="LN_EM_ID" not-null="true" />
+            </key>
+            <one-to-many class="org.drizzly.persistence.dto.DrTrLoan" />
+        </set>
+    </class>
+</hibernate-mapping>

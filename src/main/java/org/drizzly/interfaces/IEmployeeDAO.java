@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.drizzly.core;
+package org.drizzly.interfaces;
 
 import java.util.List;
 import org.drizzly.interfaces.dto.IEmployee;
@@ -13,15 +13,14 @@ import org.drizzly.persistence.dto.DrMaEmployee;
  *
  * @author rajaguru
  */
-public interface IEmployeeManager {
-    
-    IEmployee getEmployeeDetails(Long emId);
-    
-    void saveEmployee(DrMaEmployee emp);
-    
-    void removeEmployee(Long emId);
-    
-    List<DrMaEmployee> getAllEmployees() ;
-    
-    void UpdateEmployee(DrMaEmployee emp);
+public interface IEmployeeDAO {
+    void saveEmployee(DrMaEmployee employee);
+     
+    List<DrMaEmployee> findAllEmployees();
+     
+    void deleteEmployeeByEmId(Long emId);
+     
+    IEmployee findByEmId(Long emId);
+     
+    void updateEmployee(DrMaEmployee employee);
 }

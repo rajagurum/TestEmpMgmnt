@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17 Oct, 2015 9:14:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.drizzly.persistence.dto.DrMaFees" table="DR_MA_FEES" catalog="DrizzlyDB" optimistic-lock="version">
+        <id name="feId" type="java.lang.Long">
+            <column name="FE_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="drMaCategory" class="org.drizzly.persistence.dto.DrMaCategory" fetch="select">
+            <column name="FE_CT_ID" not-null="true" />
+        </many-to-one>
+        <property name="feAmount" type="big_integer">
+            <column name="FE_AMOUNT" precision="10" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

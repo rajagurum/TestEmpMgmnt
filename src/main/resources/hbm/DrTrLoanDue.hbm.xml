@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17 Oct, 2015 9:14:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.drizzly.persistence.dto.DrTrLoanDue" table="DR_TR_LOAN_DUE" catalog="DrizzlyDB" optimistic-lock="version">
+        <id name="lpId" type="java.lang.Long">
+            <column name="LP_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="drMaEmployee" class="org.drizzly.persistence.dto.DrMaEmployee" fetch="select">
+            <column name="LP_EM_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="drTrLoanDue" class="org.drizzly.persistence.dto.DrTrLoanDue" fetch="select">
+            <column name="LP_LN_ID" not-null="true" />
+        </many-to-one>
+        <property name="lpAmountPaid" type="big_integer">
+            <column name="LP_AMOUNT_PAID" precision="10" scale="0" not-null="true" />
+        </property>
+        <property name="lpDate" type="date">
+            <column name="LP_DATE" length="10" not-null="true" />
+        </property>
+        <set name="drTrLoanDues" table="DR_TR_LOAN_DUE" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="LP_LN_ID" not-null="true" />
+            </key>
+            <one-to-many class="org.drizzly.persistence.dto.DrTrLoanDue" />
+        </set>
+    </class>
+</hibernate-mapping>

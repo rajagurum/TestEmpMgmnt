@@ -5,25 +5,46 @@
  */
 package org.drizzly.core;
 
+import java.util.List;
+import org.drizzly.interfaces.IEmployeeDAO;
+import org.drizzly.interfaces.dto.IEmployee;
+import org.drizzly.persistence.dto.DrMaEmployee;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+
 /**
  *
  * @author rajaguru
  */
-public class EmployeeManager implements IEmployeeManager {
+@Configuration
+public class EmployeeManager implements IEmployeeManager{
 
-    public Employee getEmployeeDetails() throws DrizzlyException {
-        
-        throw new DrizzlyException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void saveEmployee() throws DrizzlyException {
-        throw new DrizzlyException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void removeEmployee() throws DrizzlyException {
-        throw new DrizzlyException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    @Autowired
+    private IEmployeeDAO employeeDao;
     
+    @Override
+    public IEmployee getEmployeeDetails(Long emId) {
+        return (IEmployee) employeeDao.findByEmId(emId); 
+    }
     
+    @Override
+    public void UpdateEmployee(DrMaEmployee emp) {
+        employeeDao.updateEmployee(emp); 
+    }
+
+    @Override
+    public void saveEmployee(DrMaEmployee emp) {
+        employeeDao.saveEmployee(emp);
+    }
+
+    @Override
+    public void removeEmployee(Long emId) {
+        employeeDao.deleteEmployeeByEmId(emId);
+    }
+
+    @Override
+    public List<DrMaEmployee> getAllEmployees() {
+        return employeeDao.findAllEmployees();
+    }
+
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17 Oct, 2015 9:14:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.drizzly.persistence.dto.DrMaStudent" table="DR_MA_STUDENT" catalog="DrizzlyDB" optimistic-lock="version">
+        <id name="stId" type="java.lang.Long">
+            <column name="ST_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="drMaCategory" class="org.drizzly.persistence.dto.DrMaCategory" fetch="select">
+            <column name="ST_CT_ID" not-null="true" />
+        </many-to-one>
+        <property name="stName" type="string">
+            <column name="ST_NAME" length="100" not-null="true" />
+        </property>
+        <property name="stJoinedDate" type="date">
+            <column name="ST_JOINED_DATE" length="10" not-null="true" />
+        </property>
+        <property name="stFeesMode" type="string">
+            <column name="ST_FEES_MODE" length="100" not-null="true" />
+        </property>
+        <property name="stFatherName" type="string">
+            <column name="ST_FATHER_NAME" length="100" not-null="true" />
+        </property>
+        <property name="stMotherName" type="string">
+            <column name="ST_MOTHER_NAME" length="100" not-null="true" />
+        </property>
+        <property name="stRelievedDate" type="date">
+            <column name="ST_RELIEVED_DATE" length="10" />
+        </property>
+        <property name="stAddress" type="string">
+            <column name="ST_ADDRESS" length="500" not-null="true" />
+        </property>
+        <property name="stCity" type="string">
+            <column name="ST_CITY" length="100" not-null="true" />
+        </property>
+        <property name="stState" type="string">
+            <column name="ST_STATE" length="100" not-null="true" />
+        </property>
+        <property name="stPincode" type="string">
+            <column name="ST_PINCODE" length="50" not-null="true" />
+        </property>
+        <property name="stCountry" type="string">
+            <column name="ST_COUNTRY" length="50" not-null="true" />
+        </property>
+        <property name="stMobile1" type="string">
+            <column name="ST_MOBILE1" length="15" not-null="true" />
+        </property>
+        <property name="stMobile2" type="string">
+            <column name="ST_MOBILE2" length="15" />
+        </property>
+        <property name="stEmail1" type="string">
+            <column name="ST_EMAIL1" length="150" />
+        </property>
+        <set name="drTrFeesDues" table="DR_TR_FEES_DUE" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="FP_ST_ID" not-null="true" />
+            </key>
+            <one-to-many class="org.drizzly.persistence.dto.DrTrFeesDue" />
+        </set>
+    </class>
+</hibernate-mapping>

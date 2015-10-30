@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17 Oct, 2015 9:14:36 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="org.drizzly.persistence.dto.DrTrFeesDue" table="DR_TR_FEES_DUE" catalog="DrizzlyDB" optimistic-lock="version">
+        <id name="fpId" type="java.lang.Long">
+            <column name="FP_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="drMaStudent" class="org.drizzly.persistence.dto.DrMaStudent" fetch="select">
+            <column name="FP_ST_ID" not-null="true" />
+        </many-to-one>
+        <property name="fpAmountPaid" type="big_integer">
+            <column name="FP_AMOUNT_PAID" precision="10" scale="0" not-null="true" />
+        </property>
+        <property name="fpPaidDate" type="date">
+            <column name="FP_PAID_DATE" length="10" not-null="true" />
+        </property>
+        <property name="fpMonth" type="string">
+            <column name="FP_MONTH" length="45" />
+        </property>
+        <property name="fdTerm" type="string">
+            <column name="FD_TERM" length="45" />
+        </property>
+        <property name="fdYearly" type="string">
+            <column name="FD_YEARLY" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>
